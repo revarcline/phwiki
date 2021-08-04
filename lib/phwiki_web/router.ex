@@ -21,6 +21,9 @@ defmodule PhwikiWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/articles", ArticleLive.Index, :index
+
+    live "/articles/:id", ArticleLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
@@ -65,6 +68,11 @@ defmodule PhwikiWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    live "/articles/new", ArticleLive.Index, :new
+    live "/articles/:id/edit", ArticleLive.Index, :edit
+
+    live "/articles/:id/show/edit", ArticleLive.Show, :edit
   end
 
   scope "/", PhwikiWeb do
