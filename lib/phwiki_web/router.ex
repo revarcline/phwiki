@@ -22,8 +22,10 @@ defmodule PhwikiWeb.Router do
 
     live "/", PageLive, :index
     live "/articles", ArticleLive.Index, :index
+    live "/edits", EditLive.Index, :index
 
     live "/articles/:id", ArticleLive.Show, :show
+    live "/edits/:id", EditLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
@@ -72,7 +74,11 @@ defmodule PhwikiWeb.Router do
     live "/articles/new", ArticleLive.Index, :new
     live "/articles/:id/edit", ArticleLive.Index, :edit
 
+    live "/edits/new", EditLive.Index, :new
+    live "/edits/:id/edit", EditLive.Index, :edit
+
     live "/articles/:id/show/edit", ArticleLive.Show, :edit
+    live "/edits/:id/show/edit", EditLive.Show, :edit
   end
 
   scope "/", PhwikiWeb do
