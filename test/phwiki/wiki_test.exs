@@ -63,4 +63,63 @@ defmodule Phwiki.WikiTest do
       assert %Ecto.Changeset{} = Wiki.change_article(article)
     end
   end
+
+  describe "edits" do
+    alias Phwiki.Wiki.Edit
+
+    @valid_attrs %{content: "some content"}
+    @update_attrs %{content: "some updated content"}
+    @invalid_attrs %{content: nil}
+
+    def edit_fixture(attrs \\ %{}) do
+      {:ok, edit} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Wiki.create_edit()
+
+      edit
+    end
+
+    test "list_edits/0 returns all edits" do
+      edit = edit_fixture()
+      assert Wiki.list_edits() == [edit]
+    end
+
+    test "get_edit!/1 returns the edit with given id" do
+      edit = edit_fixture()
+      assert Wiki.get_edit!(edit.id) == edit
+    end
+
+    test "create_edit/1 with valid data creates a edit" do
+      assert {:ok, %Edit{} = edit} = Wiki.create_edit(@valid_attrs)
+      assert edit.content == "some content"
+    end
+
+    test "create_edit/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Wiki.create_edit(@invalid_attrs)
+    end
+
+    test "update_edit/2 with valid data updates the edit" do
+      edit = edit_fixture()
+      assert {:ok, %Edit{} = edit} = Wiki.update_edit(edit, @update_attrs)
+      assert edit.content == "some updated content"
+    end
+
+    test "update_edit/2 with invalid data returns error changeset" do
+      edit = edit_fixture()
+      assert {:error, %Ecto.Changeset{}} = Wiki.update_edit(edit, @invalid_attrs)
+      assert edit == Wiki.get_edit!(edit.id)
+    end
+
+    test "delete_edit/1 deletes the edit" do
+      edit = edit_fixture()
+      assert {:ok, %Edit{}} = Wiki.delete_edit(edit)
+      assert_raise Ecto.NoResultsError, fn -> Wiki.get_edit!(edit.id) end
+    end
+
+    test "change_edit/1 returns a edit changeset" do
+      edit = edit_fixture()
+      assert %Ecto.Changeset{} = Wiki.change_edit(edit)
+    end
+  end
 end

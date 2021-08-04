@@ -1,0 +1,22 @@
+<h1>Show Edit</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, PhwikiWeb.EditLive.FormComponent,
+    id: @edit.id,
+    title: @page_title,
+    action: @live_action,
+    edit: @edit,
+    return_to: Routes.edit_show_path(@socket, :show, @edit) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @edit.content %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.edit_show_path(@socket, :edit, @edit), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.edit_index_path(@socket, :index) %></span>

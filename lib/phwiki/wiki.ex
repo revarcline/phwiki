@@ -101,4 +101,100 @@ defmodule Phwiki.Wiki do
   def change_article(%Article{} = article, attrs \\ %{}) do
     Article.changeset(article, attrs)
   end
+
+  alias Phwiki.Wiki.Edit
+
+  @doc """
+  Returns the list of edits.
+
+  ## Examples
+
+      iex> list_edits()
+      [%Edit{}, ...]
+
+  """
+  def list_edits do
+    Repo.all(Edit)
+  end
+
+  @doc """
+  Gets a single edit.
+
+  Raises `Ecto.NoResultsError` if the Edit does not exist.
+
+  ## Examples
+
+      iex> get_edit!(123)
+      %Edit{}
+
+      iex> get_edit!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_edit!(id), do: Repo.get!(Edit, id)
+
+  @doc """
+  Creates a edit.
+
+  ## Examples
+
+      iex> create_edit(%{field: value})
+      {:ok, %Edit{}}
+
+      iex> create_edit(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_edit(attrs \\ %{}) do
+    %Edit{}
+    |> Edit.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a edit.
+
+  ## Examples
+
+      iex> update_edit(edit, %{field: new_value})
+      {:ok, %Edit{}}
+
+      iex> update_edit(edit, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_edit(%Edit{} = edit, attrs) do
+    edit
+    |> Edit.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a edit.
+
+  ## Examples
+
+      iex> delete_edit(edit)
+      {:ok, %Edit{}}
+
+      iex> delete_edit(edit)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_edit(%Edit{} = edit) do
+    Repo.delete(edit)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking edit changes.
+
+  ## Examples
+
+      iex> change_edit(edit)
+      %Ecto.Changeset{data: %Edit{}}
+
+  """
+  def change_edit(%Edit{} = edit, attrs \\ %{}) do
+    Edit.changeset(edit, attrs)
+  end
 end

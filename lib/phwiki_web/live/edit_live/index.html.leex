@@ -1,0 +1,35 @@
+<h1>Listing Edits</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, PhwikiWeb.EditLive.FormComponent,
+    id: @edit.id || :new,
+    title: @page_title,
+    action: @live_action,
+    edit: @edit,
+    return_to: Routes.edit_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="edits">
+    <%= for edit <- @edits do %>
+      <tr id="edit-<%= edit.id %>">
+        <td><%= edit.content %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.edit_show_path(@socket, :show, edit) %></span>
+          <span><%= live_patch "Edit", to: Routes.edit_index_path(@socket, :edit, edit) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: edit.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Edit", to: Routes.edit_index_path(@socket, :new) %></span>
