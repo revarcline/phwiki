@@ -5,6 +5,7 @@ defmodule Phwiki.Accounts.User do
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
+    field :username, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
@@ -31,9 +32,18 @@ defmodule Phwiki.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :username])
     |> validate_email()
+    |> validate_username()
     |> validate_password(opts)
+  end
+
+  defp validate_username(changeset) do
+    changeset
+    |> validate_required([:username])
+    |> validate_length(:username, min: 2, max: 32, message: "must be between 2 and 32 characters")
+    |> unsafe_validate_unique([:username], Phwiki.Repo, message: "must be unique")
+    |> unique_constraint(:username)
   end
 
   defp validate_email(changeset) do
@@ -65,6 +75,16 @@ defmodule Phwiki.Accounts.User do
       |> delete_change(:password)
     else
       changeset
+    end
+  end
+
+  def username_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:username])
+    |> validate_username()
+    |> case do
+      %{changes: %{username: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :username, "did not change")
     end
   end
 
