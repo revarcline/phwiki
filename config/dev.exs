@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :phwiki, Phwiki.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("PG_USERNAME"),
+  password: System.get_env("PG_PASSWORD"),
   database: "phwiki_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

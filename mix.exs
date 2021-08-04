@@ -46,7 +46,11 @@ defmodule Phwiki.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
+      {:earmark, "~> 1.4.15"},
+      {:cloudex, "~> 1.3.0"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 

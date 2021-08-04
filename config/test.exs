@@ -6,8 +6,8 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :phwiki, Phwiki.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("PG_USERNAME"),
+  password: System.get_env("PG_PASSWORD"),
   database: "phwiki_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
