@@ -2,8 +2,6 @@
 
 <h3>Change username</h3>
 
-<h3>Change email</h3>
-
 <%= form_for @username_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
   <%= if @username_changeset.action do %>
     <div class="alert alert-danger">
@@ -21,6 +19,8 @@
     <%= submit "Change username" %>
   </div>
 <% end %>
+
+<h3>Change email</h3>
 
 <%= form_for @email_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
   <%= if @email_changeset.action do %>
