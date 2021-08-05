@@ -45,7 +45,7 @@ defmodule PhwikiWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: PhwikiWeb.Telemetry
+      live_dashboard "/dashboard", metrics: PhwikiWeb.Telemetry, ecto_repos: [Phwiki.Repo]
     end
   end
 

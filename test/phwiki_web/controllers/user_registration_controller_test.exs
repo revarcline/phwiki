@@ -22,10 +22,11 @@ defmodule PhwikiWeb.UserRegistrationControllerTest do
     @tag :capture_log
     test "creates account and logs the user in", %{conn: conn} do
       email = unique_user_email()
+      username = unique_user_username()
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+          "user" => valid_user_attributes(email: email, username: username)
         })
 
       assert get_session(conn, :user_token)
@@ -34,7 +35,7 @@ defmodule PhwikiWeb.UserRegistrationControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ email
+      assert response =~ username
       assert response =~ "Settings</a>"
       assert response =~ "Log out</a>"
     end
