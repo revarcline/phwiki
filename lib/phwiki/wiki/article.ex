@@ -15,4 +15,10 @@ defmodule Phwiki.Wiki.Article do
     |> cast(attrs, [:title, :slug])
     |> validate_required([:title, :slug])
   end
+
+  # defimpl Phoenix.Param, for(Phwiki.Wiki.Article) do
+  # def to_param(%{slug: slug}) do
+  # "#{slug}"
+  # end
+  # end
 end
