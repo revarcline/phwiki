@@ -35,7 +35,11 @@ defmodule Phwiki.Wiki do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article!(id), do: Repo.get!(Article, id)
+  def get_article!(id) do
+    Article
+    |> Repo.get!(id)
+    |> Repo.preload(:edits)
+  end
 
   @doc """
   Gets a single article by slug.
@@ -51,7 +55,11 @@ defmodule Phwiki.Wiki do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article_by_slug!(slug), do: Repo.get_by!(Article, slug: slug)
+  def get_article_by_slug!(slug) do
+    Article
+    |> Repo.get_by!(slug: slug)
+    |> Repo.preload(:edits)
+  end
 
   @doc """
   Creates a article.
@@ -174,7 +182,7 @@ defmodule Phwiki.Wiki do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_edit(attrs \\ %{}) do
+  def create_article_edit(attrs \\ %{}) do
     %Edit{}
     |> Edit.changeset(attrs)
     |> Repo.insert()

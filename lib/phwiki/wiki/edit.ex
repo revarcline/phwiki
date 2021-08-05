@@ -14,7 +14,7 @@ defmodule Phwiki.Wiki.Edit do
   @doc false
   def changeset(edit, attrs) do
     edit
-    |> cast(attrs, [:content])
+    |> cast(attrs, [:article_id, :content])
     |> validate_required([:content])
   end
 end
