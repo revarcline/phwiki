@@ -6,6 +6,7 @@ defmodule Phwiki.Accounts.User do
   schema "users" do
     field :email, :string
     field :username, :string
+    field :slug, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
