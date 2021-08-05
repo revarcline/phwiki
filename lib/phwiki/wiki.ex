@@ -38,6 +38,22 @@ defmodule Phwiki.Wiki do
   def get_article!(id), do: Repo.get!(Article, id)
 
   @doc """
+  Gets a single article by slug.
+
+  Raises `Ecto.NoResultsError` if the Article does not exist.
+
+  ## Examples
+
+      iex> get_article_by_slug!('article')
+      %Article{}
+
+      iex> get_article_by_slub!('bad-article')
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_article_by_slug!(slug), do: Repo.get_by!(Article, slug: slug)
+
+  @doc """
   Creates a article.
 
   ## Examples
@@ -103,6 +119,19 @@ defmodule Phwiki.Wiki do
   end
 
   alias Phwiki.Wiki.Edit
+
+  @doc """
+  Returns the list of edits.
+
+  ## Examples
+
+      iex> list_edits()
+      [%Edit{}, ...]
+
+  """
+  def list_article_edits(article) do
+    article.edits
+  end
 
   @doc """
   Returns the list of edits.

@@ -17,7 +17,7 @@ defmodule PhwikiWeb.ArticleLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Article")
-    |> assign(:article, Wiki.get_article!(id))
+    |> assign(:article, Wiki.get_article_by_slug!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,7 +34,7 @@ defmodule PhwikiWeb.ArticleLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    article = Wiki.get_article!(id)
+    article = Wiki.get_article_by_slug!(id)
     {:ok, _} = Wiki.delete_article(article)
 
     {:noreply, assign(socket, :articles, list_articles())}

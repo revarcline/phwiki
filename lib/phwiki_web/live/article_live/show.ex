@@ -13,7 +13,7 @@ defmodule PhwikiWeb.ArticleLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:article, Wiki.get_article!(id))}
+     |> assign(:article, Wiki.get_article_by_slug!(id))}
   end
 
   defp page_title(:show), do: "Show Article"

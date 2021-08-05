@@ -5,8 +5,8 @@ defmodule PhwikiWeb.ArticleLiveTest do
 
   alias Phwiki.Wiki
 
-  @create_attrs %{slug: "some slug", title: "some title"}
-  @update_attrs %{slug: "some updated slug", title: "some updated title"}
+  @create_attrs %{title: "some title", slug: "some-title"}
+  @update_attrs %{title: "some updated title", slug: "some-updated-title"}
   @invalid_attrs %{slug: nil, title: nil}
 
   defp fixture(:article) do
@@ -48,7 +48,7 @@ defmodule PhwikiWeb.ArticleLiveTest do
         |> follow_redirect(conn, Routes.article_index_path(conn, :index))
 
       assert html =~ "Article created successfully"
-      assert html =~ "some slug"
+      assert html =~ "some title"
     end
 
     test "updates article in listing", %{conn: conn, article: article} do
@@ -70,7 +70,7 @@ defmodule PhwikiWeb.ArticleLiveTest do
         |> follow_redirect(conn, Routes.article_index_path(conn, :index))
 
       assert html =~ "Article updated successfully"
-      assert html =~ "some updated slug"
+      assert html =~ "some updated title"
     end
 
     test "deletes article in listing", %{conn: conn, article: article} do
@@ -88,7 +88,7 @@ defmodule PhwikiWeb.ArticleLiveTest do
       {:ok, _show_live, html} = live(conn, Routes.article_show_path(conn, :show, article))
 
       assert html =~ "Show Article"
-      assert html =~ article.slug
+      assert html =~ article.title
     end
 
     test "updates article within modal", %{conn: conn, article: article} do
@@ -110,7 +110,7 @@ defmodule PhwikiWeb.ArticleLiveTest do
         |> follow_redirect(conn, Routes.article_show_path(conn, :show, article))
 
       assert html =~ "Article updated successfully"
-      assert html =~ "some updated slug"
+      assert html =~ "some updated title"
     end
   end
 end

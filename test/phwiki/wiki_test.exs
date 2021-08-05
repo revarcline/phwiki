@@ -6,8 +6,8 @@ defmodule Phwiki.WikiTest do
   describe "articles" do
     alias Phwiki.Wiki.Article
 
-    @valid_attrs %{slug: "some slug", title: "some title"}
-    @update_attrs %{slug: "some updated slug", title: "some updated title"}
+    @valid_attrs %{title: "some title", slug: "some-title"}
+    @update_attrs %{title: "some updated title", slug: "some-updated-title"}
     @invalid_attrs %{slug: nil, title: nil}
 
     def article_fixture(attrs \\ %{}) do
@@ -31,8 +31,8 @@ defmodule Phwiki.WikiTest do
 
     test "create_article/1 with valid data creates a article" do
       assert {:ok, %Article{} = article} = Wiki.create_article(@valid_attrs)
-      assert article.slug == "some slug"
       assert article.title == "some title"
+      assert article.slug == "some-title"
     end
 
     test "create_article/1 with invalid data returns error changeset" do
@@ -42,8 +42,8 @@ defmodule Phwiki.WikiTest do
     test "update_article/2 with valid data updates the article" do
       article = article_fixture()
       assert {:ok, %Article{} = article} = Wiki.update_article(article, @update_attrs)
-      assert article.slug == "some updated slug"
       assert article.title == "some updated title"
+      assert article.slug == "some-updated-title"
     end
 
     test "update_article/2 with invalid data returns error changeset" do

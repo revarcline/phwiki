@@ -89,3 +89,9 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./custom-styles.css"

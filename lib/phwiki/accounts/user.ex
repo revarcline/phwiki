@@ -1,6 +1,7 @@
 defmodule Phwiki.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Phwiki.Slug
 
   @derive {Inspect, except: [:password]}
   schema "users" do
@@ -37,6 +38,14 @@ defmodule Phwiki.Accounts.User do
     |> validate_email()
     |> validate_username()
     |> validate_password(opts)
+    |> slugify_username()
+  end
+
+  defp slugify_username(changeset) do
+    case fetch_change(changeset, :username) do
+      {:ok, new_username} -> put_change(changeset, :slug, slugify(new_username))
+      :error -> changeset
+    end
   end
 
   defp validate_username(changeset) do
@@ -83,6 +92,7 @@ defmodule Phwiki.Accounts.User do
     user
     |> cast(attrs, [:username])
     |> validate_username()
+    |> slugify_username()
     |> case do
       %{changes: %{username: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :username, "did not change")
