@@ -4,8 +4,9 @@ defmodule Phwiki.Wiki.Edit do
 
   schema "edits" do
     field :content, :string
-    field :user_id, :id
-    field :article_id, :id
+
+    belongs_to :user, Phwiki.Accounts.User
+    belongs_to :article, Phwiki.Wiki.Article
 
     timestamps()
   end
