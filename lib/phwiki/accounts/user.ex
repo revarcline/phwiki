@@ -12,6 +12,9 @@ defmodule Phwiki.Accounts.User do
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
 
+    has_many :edits, Phwiki.Wiki.Edit
+    has_many :articles, through: [:edits, :article]
+
     timestamps()
   end
 
