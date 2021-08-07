@@ -8,6 +8,7 @@ defmodule Phwiki.Wiki.Article do
     field :title, :string
 
     has_many :edits, Phwiki.Wiki.Edit
+    has_many :users, through: [:edits, :user]
 
     timestamps()
   end

@@ -182,7 +182,7 @@ defmodule Phwiki.Wiki do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_article_edit(attrs \\ %{}) do
+  def create_edit(attrs \\ %{}) do
     %Edit{}
     |> Edit.changeset(attrs)
     |> Repo.insert()
