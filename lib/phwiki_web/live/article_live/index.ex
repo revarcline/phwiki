@@ -3,6 +3,7 @@ defmodule PhwikiWeb.ArticleLive.Index do
 
   alias Phwiki.Wiki
   alias Phwiki.Wiki.Article
+  alias Phwiki.Wiki.Edit
 
   @impl true
   def mount(_params, _session, socket) do
@@ -24,6 +25,7 @@ defmodule PhwikiWeb.ArticleLive.Index do
     socket
     |> assign(:page_title, "New Article")
     |> assign(:article, %Article{})
+    |> assign(:edit, %Edit{})
   end
 
   defp apply_action(socket, :index, _params) do
