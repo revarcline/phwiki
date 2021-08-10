@@ -5,8 +5,9 @@ defmodule Phwiki.Wiki do
 
   import Ecto.Query, warn: false
   alias Phwiki.Repo
-
   alias Phwiki.Wiki.Article
+  alias Phwiki.Wiki.Edit
+  alias Phwiki.Accounts.User
 
   @doc """
   Returns the list of articles.
@@ -73,9 +74,17 @@ defmodule Phwiki.Wiki do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_article(attrs \\ %{}) do
+  def create_article(%User{} = user, article_attrs \\ %{}, edit_attrs \\ %{}) do
     %Article{}
-    |> Article.changeset(attrs)
+    |> Article.changeset(article_attrs)
+    |> Repo.insert()
+    |> create_article_edit(user, edit_attrs)
+  end
+
+  def create_article_edit(%Article{} = article, %User{} = user, edit_attrs \\ %{}) do
+    %Edit{}
+    |> Ecto.build_assoc(article, edit_attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 
@@ -125,8 +134,6 @@ defmodule Phwiki.Wiki do
   def change_article(%Article{} = article, attrs \\ %{}) do
     Article.changeset(article, attrs)
   end
-
-  alias Phwiki.Wiki.Edit
 
   @doc """
   Returns the list of an article's edits.
