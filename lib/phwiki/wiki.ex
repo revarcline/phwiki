@@ -62,6 +62,11 @@ defmodule Phwiki.Wiki do
     |> Repo.preload(:edits)
   end
 
+  defp preload_last_edit(%Article{} = article) do
+    edit_query = from e in Edit, order_by: e.updated_at, limit: 1
+    Repo.preload(article, edits: ^edit_query)
+  end
+
   @doc """
   Creates a article.
 
