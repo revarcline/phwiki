@@ -129,6 +129,22 @@ defmodule Phwiki.Wiki do
   alias Phwiki.Wiki.Edit
 
   @doc """
+  Returns the list of an article's edits.
+
+  ## Examples
+
+      iex> list_article_edits(article)
+      [%Edit{}, ...]
+
+  """
+  def list_article_edits(%Article{} = article) do
+    article
+    |> Repo.preload(:edits)
+
+    article.edits
+  end
+
+  @doc """
   Returns the list of edits.
 
   ## Examples
@@ -137,7 +153,7 @@ defmodule Phwiki.Wiki do
       [%Edit{}, ...]
 
   """
-  def list_article_edits(article) do
+  def last_article_edit(%Article{} = article) do
     article.edits
   end
 
