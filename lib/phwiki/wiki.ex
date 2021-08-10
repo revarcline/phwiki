@@ -75,15 +75,18 @@ defmodule Phwiki.Wiki do
 
   """
   def create_article(%User{} = user, article_attrs \\ %{}, edit_attrs \\ %{}) do
-    %Article{}
-    |> Article.changeset(article_attrs)
-    |> Repo.insert()
-    |> create_article_edit(user, edit_attrs)
+    {:ok, article} =
+      %Article{}
+      |> Article.changeset(article_attrs)
+      |> Repo.insert()
+
+    create_article_edit(article, user, edit_attrs)
   end
 
   def create_article_edit(%Article{} = article, %User{} = user, edit_attrs \\ %{}) do
-    %Edit{}
-    |> Ecto.build_assoc(article, edit_attrs)
+    article
+    |> Ecto.build_assoc(:edits, edit_attrs)
+    |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
