@@ -143,33 +143,28 @@ defmodule Phwiki.Wiki do
     Article.changeset(article, attrs)
   end
 
-  @doc """
-  Returns the list of an article's edits.
-
-  ## Examples
-
-      iex> list_article_edits(article)
-      [%Edit{}, ...]
-
-  """
-  def list_article_edits(%Article{} = article) do
-    article
-    |> Repo.preload(:edits)
+  def get_article_edits!(id) do
+    article =
+      Article
+      |> preload_all_edits()
+      |> Repo.get!(id)
 
     article.edits
   end
 
-  @doc """
-  Returns the list of edits.
+  def get_article_edits_by_slug!(slug) do
+    article =
+      Article
+      |> preload_all_edits()
+      |> Repo.get_by(slug: slug)
+      |> Repo.preload(:edits)
 
-  ## Examples
-
-      iex> list_edits()
-      [%Edit{}, ...]
-
-  """
-  def last_article_edit(%Article{} = article) do
     article.edits
+  end
+
+  defp preload_all_edits(query) do
+    edit_query = from e in Edit, order_by: [desc: e.updated_at]
+    preload(query, edits: ^edit_query)
   end
 
   @doc """
@@ -182,7 +177,10 @@ defmodule Phwiki.Wiki do
 
   """
   def list_edits do
-    Repo.all(Edit)
+    Edit
+    |> Repo.all()
+    |> Repo.preload(:article)
+    |> Repo.preload(:user)
   end
 
   @doc """
@@ -199,7 +197,12 @@ defmodule Phwiki.Wiki do
       ** (Ecto.NoResultsError)
 
   """
-  def get_edit!(id), do: Repo.get!(Edit, id)
+  def get_edit!(id) do
+    Edit
+    |> Repo.get!(id)
+    |> Repo.preload(:article)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a edit.
