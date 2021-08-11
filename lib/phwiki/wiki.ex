@@ -38,8 +38,8 @@ defmodule Phwiki.Wiki do
   """
   def get_article!(id) do
     Article
+    |> preload_last_edit()
     |> Repo.get!(id)
-    |> Repo.preload(:edits)
   end
 
   @doc """
@@ -58,13 +58,13 @@ defmodule Phwiki.Wiki do
   """
   def get_article_by_slug!(slug) do
     Article
+    |> preload_last_edit()
     |> Repo.get_by!(slug: slug)
-    |> Repo.preload(:edits)
   end
 
-  defp preload_last_edit(%Article{} = article) do
-    edit_query = from e in Edit, order_by: e.updated_at, limit: 1
-    Repo.preload(article, edits: ^edit_query)
+  defp preload_last_edit(query) do
+    edit_query = from e in Edit, order_by: [desc: e.updated_at], limit: 1
+    preload(query, edits: ^edit_query)
   end
 
   @doc """
