@@ -205,39 +205,11 @@ defmodule Phwiki.Wiki do
   end
 
   @doc """
-  Creates a edit.
-
-  ## Examples
-
-      iex> create_edit(%{field: value})
-      {:ok, %Edit{}}
-
-      iex> create_edit(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
 
   """
-  def create_edit(attrs \\ %{}) do
-    %Edit{}
-    |> Edit.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a edit.
-
-  ## Examples
-
-      iex> update_edit(edit, %{field: new_value})
-      {:ok, %Edit{}}
-
-      iex> update_edit(edit, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_edit(%Edit{} = edit, attrs) do
-    edit
-    |> Edit.changeset(attrs)
-    |> Repo.update()
+  def revert_article_edit(%User{} = user, id) do
+    edit = get_edit!(id)
+    create_article_edit(edit.article, user, %{content: edit.content})
   end
 
   @doc """
