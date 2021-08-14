@@ -31,7 +31,7 @@ defmodule Phwiki.Wiki.Article do
 
   defp validate_slug(changeset) do
     changeset
-    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "has already been taken")
+    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "for title has already been taken")
     |> unique_constraint(:slug)
   end
 end

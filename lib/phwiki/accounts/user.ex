@@ -72,7 +72,7 @@ defmodule Phwiki.Accounts.User do
 
   defp validate_slug(changeset) do
     changeset
-    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "has already been taken")
+    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "for username has already been taken")
     |> unique_constraint(:slug)
   end
 

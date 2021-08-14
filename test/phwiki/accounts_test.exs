@@ -90,14 +90,14 @@ defmodule Phwiki.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
-    test "validates username uniqueness" do
+    test "validates username/slug uniqueness" do
       %{username: username} = user_fixture()
       {:error, changeset} = Accounts.register_user(%{username: username})
-      assert "has already been taken" in errors_on(changeset).username
+      assert "for username has already been taken" in errors_on(changeset).slug
 
       # Now try with the upper cased username too, to check that case is ignored.
       {:error, changeset} = Accounts.register_user(%{username: String.upcase(username)})
-      assert "has already been taken" in errors_on(changeset).username
+      assert "for username has already been taken" in errors_on(changeset).slug
     end
 
     test "registers users with a hashed password" do
