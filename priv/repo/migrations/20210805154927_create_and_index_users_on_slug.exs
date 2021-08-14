@@ -3,7 +3,7 @@ defmodule Phwiki.Repo.Migrations.CreateAndIndexUsersOnSlug do
 
   def change do
     alter table(:users) do
-      add(:slug, :string)
+      add(:slug, :citext)
     end
 
     create(index(:users, [:slug], unique: true))

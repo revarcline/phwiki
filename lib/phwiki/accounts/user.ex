@@ -49,9 +49,10 @@ defmodule Phwiki.Accounts.User do
     |> validate_username()
     |> validate_password(opts)
     |> slugify_username()
+    |> validate_slug()
   end
 
-  def admin_registraiton_changeset(user, attrs) do
+  def admin_registration_changeset(user, attrs) do
     user
     |> registration_changeset(attrs)
     |> prepare_changes(&set_admin_role/1)
@@ -69,12 +70,16 @@ defmodule Phwiki.Accounts.User do
     end
   end
 
+  defp validate_slug(changeset) do
+    changeset
+    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "has already been taken")
+    |> unique_constraint(:slug)
+  end
+
   defp validate_username(changeset) do
     changeset
     |> validate_required([:username])
     |> validate_length(:username, min: 2, max: 32, message: "must be between 2 and 32 characters")
-    |> unsafe_validate_unique([:username], Phwiki.Repo, message: "must be unique")
-    |> unique_constraint(:username)
   end
 
   defp validate_email(changeset) do

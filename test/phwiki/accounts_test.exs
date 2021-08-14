@@ -48,20 +48,27 @@ defmodule Phwiki.AccountsTest do
   end
 
   describe "register_user/1" do
-    test "requires email and password to be set" do
+    test "requires email, username, and password to be set" do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
                password: ["can't be blank"],
+               username: ["can't be blank"],
                email: ["can't be blank"]
              } = errors_on(changeset)
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} =
+        Accounts.register_user(%{
+          email: "not valid",
+          username: "n",
+          password: "not valid"
+        })
 
       assert %{
                email: ["must have the @ sign and no spaces"],
+               username: ["must be between 2 and 32 characters"],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
@@ -83,6 +90,16 @@ defmodule Phwiki.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
+    test "validates username uniqueness" do
+      %{username: username} = user_fixture()
+      {:error, changeset} = Accounts.register_user(%{username: username})
+      assert "has already been taken" in errors_on(changeset).username
+
+      # Now try with the upper cased username too, to check that case is ignored.
+      {:error, changeset} = Accounts.register_user(%{username: String.upcase(username)})
+      assert "has already been taken" in errors_on(changeset).username
+    end
+
     test "registers users with a hashed password" do
       email = unique_user_email()
       {:ok, user} = Accounts.register_user(valid_user_attributes(email: email))
@@ -90,6 +107,27 @@ defmodule Phwiki.AccountsTest do
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
+    end
+  end
+
+  describe "register_admin/1" do
+    test "registers users with a hashed password and sets role to :admin" do
+      email = unique_user_email()
+      username = unique_user_username()
+
+      {:ok, user} =
+        Accounts.register_admin(%{
+          email: email,
+          username: username,
+          password: valid_user_password()
+        })
+
+      assert user.email == email
+      assert user.username == username
+      assert is_binary(user.hashed_password)
+      assert is_nil(user.confirmed_at)
+      assert is_nil(user.password)
+      assert user.role == :admin
     end
   end
 

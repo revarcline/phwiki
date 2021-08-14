@@ -91,7 +91,7 @@ defmodule Phwiki.Accounts do
   """
   def register_admin(attrs) do
     %User{}
-    |> User.admin_registraiton_changeset(attrs)
+    |> User.admin_registration_changeset(attrs)
     |> Repo.insert()
   end
 

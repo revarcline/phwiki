@@ -19,6 +19,7 @@ defmodule Phwiki.Wiki.Article do
     |> cast(attrs, [:title, :slug])
     |> validate_required([:title])
     |> slugify_title()
+    |> validate_slug()
   end
 
   defp slugify_title(changeset) do
@@ -26,5 +27,11 @@ defmodule Phwiki.Wiki.Article do
       {:ok, new_title} -> put_change(changeset, :slug, slugify(new_title))
       :error -> changeset
     end
+  end
+
+  defp validate_slug(changeset) do
+    changeset
+    |> unsafe_validate_unique([:slug], Phwiki.Repo, message: "has already been taken")
+    |> unique_constraint(:slug)
   end
 end

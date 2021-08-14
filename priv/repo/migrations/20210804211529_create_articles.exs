@@ -3,11 +3,10 @@ defmodule Phwiki.Repo.Migrations.CreateArticles do
 
   def change do
     create table(:articles) do
-      add :title, :string
-      add :slug, :string
+      add(:title, :string)
+      add(:slug, :citext)
 
       timestamps()
     end
-
   end
 end
