@@ -51,6 +51,17 @@ defmodule Phwiki.Accounts.User do
     |> slugify_username()
   end
 
+  def admin_registraiton_changeset(user, attrs) do
+    user
+    |> registration_changeset(attrs)
+    |> prepare_changes(&set_admin_role/1)
+  end
+
+  defp set_admin_role(changeset) do
+    changeset
+    |> put_change(:role, :admin)
+  end
+
   defp slugify_username(changeset) do
     case fetch_change(changeset, :username) do
       {:ok, new_username} -> put_change(changeset, :slug, slugify(new_username))
