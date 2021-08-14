@@ -86,6 +86,7 @@ defmodule Phwiki.Wiki do
       |> Repo.insert()
 
     create_article_edit(article, user, edit_attrs)
+    {:ok, article}
   end
 
   def create_article_edit(%Article{} = article, %User{} = user, edit_attrs \\ %{}) do
