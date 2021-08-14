@@ -2,11 +2,18 @@ defmodule Phwiki.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Phwiki.Slug
+  import EctoEnum
+
+  defenum(RolesEnum, :role, [
+    :user,
+    :admin
+  ])
 
   @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
     field :username, :string
+    field :role, RolesEnum, default: :user
     field :slug, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
