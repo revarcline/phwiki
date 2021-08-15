@@ -21,11 +21,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## todo
 
-- hook accounts/user into liveview helper
 - rewrite tests for Wiki context
-- create appropriate live helper for accounts
+- create plug chain for admin etc
 - design live view for articles
 - test live view
+- create user and admin stuff
 
 
 ### done
@@ -33,3 +33,4 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Generated Wiki context
 - Article and Edit nesting in place
 - Testing Accounts context
+- hook accounts/user into liveview helper

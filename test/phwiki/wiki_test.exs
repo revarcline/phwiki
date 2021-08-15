@@ -1,23 +1,14 @@
 defmodule Phwiki.WikiTest do
   use Phwiki.DataCase
+  import Phwiki.AccountsFixtures
+  import Phwiki.WikiFixtures
 
   alias Phwiki.Wiki
 
   describe "articles" do
     alias Phwiki.Wiki.Article
 
-    @valid_attrs %{title: "some title", slug: "some-title"}
-    @update_attrs %{title: "some updated title", slug: "some-updated-title"}
-    @invalid_attrs %{slug: nil, title: nil}
 
-    def article_fixture(attrs \\ %{}) do
-      {:ok, article} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Wiki.create_article()
-
-      article
-    end
 
     test "list_articles/0 returns all articles" do
       article = article_fixture()
