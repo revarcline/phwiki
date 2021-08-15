@@ -52,7 +52,7 @@ defmodule Phwiki.Wiki do
       iex> get_article_by_slug!('article')
       %Article{}
 
-      iex> get_article_by_slub!('bad-article')
+      iex> get_article_by_slug!('bad-article')
       ** (Ecto.NoResultsError)
 
   """

@@ -2,28 +2,49 @@ defmodule Phwiki.WikiTest do
   use Phwiki.DataCase
 
   alias Phwiki.Wiki
+  alias Phwiki.Wiki.Edit
+  alias Phwiki.Wiki.Article
   alias Phwiki.Accounts
 
   import Phwiki.AccountsFixtures
   import Phwiki.WikiFixtures
 
   describe "articles" do
-    alias Phwiki.Wiki.Article
-
     test "list_articles/0 returns all articles" do
-      article = article_fixture()
+      article =
+        article_fixture()
+        |> user_fixture()
+
       assert Wiki.list_articles() == [article]
     end
 
     test "get_article!/1 returns the article with given id" do
-      article = article_fixture()
+      article =
+        article_fixture()
+        |> user_fixture()
+
       assert Wiki.get_article!(article.id) == article
     end
 
+    test "get_article_by_slug!/1 returns the article with given slug" do
+      article =
+        article_fixture()
+        |> user_fixture()
+
+      assert Wiki.get_article!(article.slug) == article
+    end
+
     test "create_article/1 with valid data creates a article" do
-      assert {:ok, %Article{} = article} = Wiki.create_article(@valid_attrs)
-      assert article.title == "some title"
-      assert article.slug == "some-title"
+      assert {:ok, %Article{} = article} =
+               Wiki.create_article(
+                 user_fixture(),
+                 valid_article_attrs(),
+                 valid_edit_attrs()
+               )
+
+      assert article.title == "Valid Article Title"
+      assert article.slug == "valid-article-title"
+      assert article.edits[0].content == "Valid Edit Content"
     end
 
     test "create_article/1 with invalid data returns error changeset" do
@@ -56,8 +77,6 @@ defmodule Phwiki.WikiTest do
   end
 
   describe "edits" do
-    alias Phwiki.Wiki.Edit
-
     @valid_attrs %{content: "some content"}
     @update_attrs %{content: "some updated content"}
     @invalid_attrs %{content: nil}
