@@ -12,24 +12,24 @@ defmodule Phwiki.WikiTest do
   describe "articles" do
     test "list_articles/0 returns all articles" do
       article =
-        article_fixture()
-        |> user_fixture()
+        user_fixture()
+        |> article_fixture()
 
       assert Wiki.list_articles() == [article]
     end
 
     test "get_article!/1 returns the article with given id" do
       article =
-        article_fixture()
-        |> user_fixture()
+        user_fixture()
+        |> article_fixture()
 
       assert Wiki.get_article!(article.id) == article
     end
 
     test "get_article_by_slug!/1 returns the article with given slug" do
       article =
-        article_fixture()
-        |> user_fixture()
+        user_fixture()
+        |> article_fixture()
 
       assert Wiki.get_article!(article.slug) == article
     end
@@ -52,26 +52,26 @@ defmodule Phwiki.WikiTest do
     end
 
     test "update_article/2 with valid data updates the article" do
-      article = article_fixture()
+      article = user_fixture() |> article_fixture()
       assert {:ok, %Article{} = article} = Wiki.update_article(article, @update_attrs)
       assert article.title == "some updated title"
       assert article.slug == "some-updated-title"
     end
 
     test "update_article/2 with invalid data returns error changeset" do
-      article = article_fixture()
+      article = user_fixture |> article_fixture()
       assert {:error, %Ecto.Changeset{}} = Wiki.update_article(article, @invalid_attrs)
       assert article == Wiki.get_article!(article.id)
     end
 
     test "delete_article/1 deletes the article" do
-      article = article_fixture()
+      article = user_fixture |> article_fixture()
       assert {:ok, %Article{}} = Wiki.delete_article(article)
       assert_raise Ecto.NoResultsError, fn -> Wiki.get_article!(article.id) end
     end
 
     test "change_article/1 returns a article changeset" do
-      article = article_fixture()
+      article = user_fixture |> article_fixture()
       assert %Ecto.Changeset{} = Wiki.change_article(article)
     end
   end
