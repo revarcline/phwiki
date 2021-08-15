@@ -48,6 +48,8 @@ defmodule PhwikiWeb do
         layout: {PhwikiWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      # use helper
+      import PhwikiWeb.LiveHelpers
     end
   end
 

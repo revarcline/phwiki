@@ -18,3 +18,18 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+## todo
+
+- hook accounts/user into liveview helper
+- rewrite tests for Wiki context
+- create appropriate live helper for accounts
+- design live view for articles
+- test live view
+
+
+### done
+- Generated Accounts contexts
+- Generated Wiki context
+- Article and Edit nesting in place
+- Testing Accounts context
