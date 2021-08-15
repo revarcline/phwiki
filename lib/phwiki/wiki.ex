@@ -208,8 +208,8 @@ defmodule Phwiki.Wiki do
   @doc """
 
   """
-  def revert_article_edit(%User{} = user, id) do
-    edit = get_edit!(id)
+  def revert_article_edit(%User{} = user, edit_id) do
+    edit = get_edit!(edit_id)
     create_article_edit(edit.article, user, %{content: edit.content})
   end
 
