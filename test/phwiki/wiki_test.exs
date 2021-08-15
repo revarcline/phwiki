@@ -1,14 +1,14 @@
 defmodule Phwiki.WikiTest do
   use Phwiki.DataCase
+
+  alias Phwiki.Wiki
+  alias Phwiki.Accounts
+
   import Phwiki.AccountsFixtures
   import Phwiki.WikiFixtures
 
-  alias Phwiki.Wiki
-
   describe "articles" do
     alias Phwiki.Wiki.Article
-
-
 
     test "list_articles/0 returns all articles" do
       article = article_fixture()

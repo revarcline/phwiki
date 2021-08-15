@@ -1,7 +1,7 @@
 <h1>Listing Articles</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, PhwikiWeb.ArticleLive.FormComponent,
+  <%= live_modal PhwikiWeb.ArticleLive.FormComponent,
     id: @article.id || :new,
     title: @page_title,
     action: @live_action,
