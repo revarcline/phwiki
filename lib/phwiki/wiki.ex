@@ -90,9 +90,8 @@ defmodule Phwiki.Wiki do
   end
 
   def create_article_edit(%Article{} = article, %User{} = user, edit_attrs \\ %{}) do
-    article
-    |> Ecto.build_assoc(:edits, edit_attrs)
-    |> Ecto.Changeset.change()
+    Ecto.build_assoc(article, :edits)
+    |> Ecto.Changeset.change(edit_attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end

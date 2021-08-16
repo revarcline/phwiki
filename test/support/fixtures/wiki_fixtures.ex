@@ -23,9 +23,7 @@ defmodule Phwiki.WikiFixtures do
     first_edit = valid_edit_attrs(edit_attrs)
     first_article = valid_article_attrs(article_attrs)
 
-    {:ok, article} =
-      Phwiki.Wiki.create_article(user, first_article, first_edit)
-      |> Phwiki.Repo.preload(:edits)
+    {:ok, article} = Phwiki.Wiki.create_article(user, first_article, first_edit)
 
     article
   end
@@ -33,9 +31,7 @@ defmodule Phwiki.WikiFixtures do
   def edit_fixture(%Article{} = article, %User{} = user, attrs \\ %{}) do
     edit_attrs = valid_edit_attrs(attrs)
 
-    {:ok, edit} =
-      Phwiki.Wiki.create_article_edit(article, user, edit_attrs)
-      |> Phwiki.Repo.preload([:article, :user])
+    {:ok, edit} = Phwiki.Wiki.create_article_edit(article, user, edit_attrs)
 
     edit
   end
