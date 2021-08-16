@@ -30,8 +30,9 @@ defmodule Phwiki.WikiTest do
       article =
         user_fixture()
         |> article_fixture()
+        |> Phwiki.Repo.preload(:edits)
 
-      assert Wiki.get_article!(article.slug) == article
+      assert Wiki.get_article_by_slug!(article.slug) == article
     end
 
     test "create_article/1 with valid data creates a article" do
@@ -41,6 +42,9 @@ defmodule Phwiki.WikiTest do
                  valid_article_attrs(),
                  valid_edit_attrs()
                )
+
+      article
+      |> Phwiki.Repo.preload(:edits)
 
       assert article.title == "Valid Article Title"
       assert article.slug == "valid-article-title"
